@@ -35,9 +35,9 @@ graph <- function(year) {
     arrange(Year, Returns) %>% 
     filter(Year == year) %>% 
     mutate(symbol = case_when(
-      symbol == 'VV' ~ 'Large Cap',
-      symbol == 'VO' ~ 'Mid Cap',
-      symbol == 'VB' ~ 'Small Cap',
+      symbol == 'VV' ~ 'Large-Cap',
+      symbol == 'VO' ~ 'Mid-Cap',
+      symbol == 'VB' ~ 'Small-Cap',
       symbol == 'VWO' ~ 'Emerging Mkts',
       symbol == 'VEA' ~ 'Intl. Stocks',
       symbol == 'GLD' ~ 'Gold',
@@ -76,9 +76,9 @@ returns_yearly_avg <- prices %>%
   summarize(Averages = mean(Returns)) %>% 
   arrange(Averages) %>% 
   mutate(symbol = case_when(
-    symbol == 'VV' ~ 'Large Cap',
-    symbol == 'VO' ~ 'Mid Cap',
-    symbol == 'VB' ~ 'Small Cap',
+    symbol == 'VV' ~ 'Large-Cap',
+    symbol == 'VO' ~ 'Mid-Cap',
+    symbol == 'VB' ~ 'Small-Cap',
     symbol == 'VWO' ~ 'Emerging Mkts',
     symbol == 'VEA' ~ 'Intl. Stocks',
     symbol == 'GLD' ~ 'Gold',
