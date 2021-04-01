@@ -29,10 +29,11 @@ library(viridis)   #For coloring the plot
 # Emerging Markets Index Returns - VWO
 # Developing Markets Index Returns - VEA
 # Gold Returns - GLD
+# Total Bond Market - BND
 
 #Get Stock prices from Yahoo Finance
 
-prices <- c("VV", 'VO', 'VB', 'VNQ', 'VWO', 'VEA', 'GLD') %>%
+prices <- c("VV", 'VO', 'VB', 'VNQ', 'VWO', 'VEA', 'GLD', 'BND') %>%
   tq_get(get  = "stock.prices",
          from = "2010-01-01",
          to   = "2021-01-01")
@@ -58,7 +59,8 @@ graph <- function(year) {
       symbol == 'VWO' ~ 'Emerging Mkts',
       symbol == 'VEA' ~ 'Intl. Stocks',
       symbol == 'GLD' ~ 'Gold',
-      symbol == 'VNQ' ~ 'REITs'),
+      symbol == 'VNQ' ~ 'REITs',
+      symbol == 'BND' ~ 'TTL Bond Mkt'),
       Year = as.factor(Year), symbol = as.factor(symbol), Returns = scales::percent(Returns, accuracy = .11))
   
   #Reorders the levels of the symbols so that the with the greatest return appears at the top of the plot
@@ -104,8 +106,9 @@ returns_yearly_avg <- prices %>%
     symbol == 'VWO' ~ 'Emerging Mkts',
     symbol == 'VEA' ~ 'Intl. Stocks',
     symbol == 'GLD' ~ 'Gold',
-    symbol == "VNQ" ~ "REITs"
-    ),`10-Yr Average` = '10-Yr Average', Year = as.factor(`10-Yr Average`), symbol = as.factor(symbol), Averages = scales::percent(Averages, accuracy = .11))
+    symbol == "VNQ" ~ "REITs",
+    symbol == 'BND' ~ 'TTL Bond Mkt')
+    ,`10-Yr Average` = '10-Yr Average', Year = as.factor(`10-Yr Average`), symbol = as.factor(symbol), Averages = scales::percent(Averages, accuracy = .11))
 
 #Reorders the levels of the symbols so that the with the greatest return appears at the top of the plot
 returns_yearly_avg$symbol <- factor(returns_yearly_avg$symbol, levels = returns_yearly_avg$symbol)
