@@ -53,53 +53,6 @@ taxi <- combined_taxi_data %>%
 
 ```
 
-```{r, warning = FALSE, results="hide", message = FALSE}
-graph <- function(year) {
-  returns_yearly <- prices %>%
-    group_by(symbol) %>%
-    tq_transmute(select     = adjusted, 
-                 mutate_fun = periodReturn, 
-                 period     = "yearly", 
-                 col_rename = "Returns") %>% 
-    mutate(Year = year(date)) %>% 
-    group_by(Year, symbol) %>% 
-    arrange(Year, Returns) %>% 
-    filter(Year == year) %>% 
-    mutate(symbol = case_when(
-      symbol == 'VV' ~ 'Large-Cap',
-      symbol == 'VO' ~ 'Mid-Cap',
-      symbol == 'VB' ~ 'Small-Cap',
-      symbol == 'VWO' ~ 'Emerging Mkts',
-      symbol == 'VEA' ~ 'Intl. Stocks',
-      symbol == 'GLD' ~ 'Gold',
-      symbol == 'VNQ' ~ 'REITs',
-      symbol == 'BND' ~ 'TTL Bond Mkt'),
-      Year = as.factor(Year), symbol = as.factor(symbol), Returns = scales::percent(Returns, accuracy = .11))
-  
-  #Reorders the levels of the symbols so that the with the greatest return appears at the top of the plot
-  returns_yearly$symbol <- factor(returns_yearly$symbol, levels = returns_yearly$symbol)
-  
-  #Creates return plots for years 2010 - 2020.
-  ggplot(returns_yearly, aes(x = Year, y = symbol, fill = symbol)) +
-    geom_tile() + 
-    geom_text(data = returns_yearly, aes(x = Year, y = symbol, label = symbol, vjust = -.2, fontface = 'bold'), size =3.25) +
-    geom_text(aes(fill = Returns, label = returns_yearly$Returns, vjust = 2, fontface = 'bold'), size =3.25) +
-    facet_wrap(~Year, scales = 'free') +
-    scale_fill_viridis(discrete = TRUE, alpha = .9) +
-    scale_y_discrete(expand = c(0, 0)) +
-    scale_x_discrete(expand = c(0, 0)) +
-    theme(axis.text.y = element_blank(),
-          axis.title.y = element_blank(),
-          axis.ticks.y = element_blank(),
-          axis.title.x = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          legend.position = "none",
-          plot.margin = rep(unit(0,"null"),4),
-          panel.margin = unit(0,"null"))
-}
-```
-
 ```{r, warning=FALSE}
 #Total Heatmap 
 taxi %>% 

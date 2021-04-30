@@ -1621,50 +1621,6 @@ taxi &lt;- combined_taxi_data %&gt;%
   add_row(Year = &#39;2015&#39;, Month = &#39;01&#39;, farebox_per_day = -99) %&gt;% 
   group_by(Year, Month) %&gt;% 
   replace_with_na(replace = list(farebox_per_day = -99))</code></pre>
-<pre class="r"><code>graph &lt;- function(year) {
-  returns_yearly &lt;- prices %&gt;%
-    group_by(symbol) %&gt;%
-    tq_transmute(select     = adjusted, 
-                 mutate_fun = periodReturn, 
-                 period     = &quot;yearly&quot;, 
-                 col_rename = &quot;Returns&quot;) %&gt;% 
-    mutate(Year = year(date)) %&gt;% 
-    group_by(Year, symbol) %&gt;% 
-    arrange(Year, Returns) %&gt;% 
-    filter(Year == year) %&gt;% 
-    mutate(symbol = case_when(
-      symbol == &#39;VV&#39; ~ &#39;Large-Cap&#39;,
-      symbol == &#39;VO&#39; ~ &#39;Mid-Cap&#39;,
-      symbol == &#39;VB&#39; ~ &#39;Small-Cap&#39;,
-      symbol == &#39;VWO&#39; ~ &#39;Emerging Mkts&#39;,
-      symbol == &#39;VEA&#39; ~ &#39;Intl. Stocks&#39;,
-      symbol == &#39;GLD&#39; ~ &#39;Gold&#39;,
-      symbol == &#39;VNQ&#39; ~ &#39;REITs&#39;,
-      symbol == &#39;BND&#39; ~ &#39;TTL Bond Mkt&#39;),
-      Year = as.factor(Year), symbol = as.factor(symbol), Returns = scales::percent(Returns, accuracy = .11))
-  
-  #Reorders the levels of the symbols so that the with the greatest return appears at the top of the plot
-  returns_yearly$symbol &lt;- factor(returns_yearly$symbol, levels = returns_yearly$symbol)
-  
-  #Creates return plots for years 2010 - 2020.
-  ggplot(returns_yearly, aes(x = Year, y = symbol, fill = symbol)) +
-    geom_tile() + 
-    geom_text(data = returns_yearly, aes(x = Year, y = symbol, label = symbol, vjust = -.2, fontface = &#39;bold&#39;), size =3.25) +
-    geom_text(aes(fill = Returns, label = returns_yearly$Returns, vjust = 2, fontface = &#39;bold&#39;), size =3.25) +
-    facet_wrap(~Year, scales = &#39;free&#39;) +
-    scale_fill_viridis(discrete = TRUE, alpha = .9) +
-    scale_y_discrete(expand = c(0, 0)) +
-    scale_x_discrete(expand = c(0, 0)) +
-    theme(axis.text.y = element_blank(),
-          axis.title.y = element_blank(),
-          axis.ticks.y = element_blank(),
-          axis.title.x = element_blank(),
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          legend.position = &quot;none&quot;,
-          plot.margin = rep(unit(0,&quot;null&quot;),4),
-          panel.margin = unit(0,&quot;null&quot;))
-}</code></pre>
 <pre class="r"><code>#Total Heatmap 
 taxi %&gt;% 
   group_by(Month) %&gt;% 
