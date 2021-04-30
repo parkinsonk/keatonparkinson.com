@@ -47,7 +47,7 @@ graph <- function(year) {
   #Reorders the levels of the symbols so that the with the greatest return appears at the top of the plot
   returns_yearly$symbol <- factor(returns_yearly$symbol, levels = returns_yearly$symbol)
   
-  #Creates return plots for years 2010 - 2020.
+  #Creates return plots for years 2011 - 2020.
   ggplot(returns_yearly, aes(x = Year, y = symbol, fill = symbol)) +
     geom_tile() + 
     geom_text(data = returns_yearly, aes(x = Year, y = symbol, label = symbol, vjust = -.2, fontface = 'bold'), size =3.25) +
@@ -67,7 +67,7 @@ graph <- function(year) {
           panel.margin = unit(0,"null"))
 }
 
-#Averages the asset class returns from 2010 - 2020
+#Averages the asset class returns from 2011 - 2020
 returns_yearly_avg <- prices %>%
   group_by(symbol) %>%
   tq_transmute(select     = adjusted, 
