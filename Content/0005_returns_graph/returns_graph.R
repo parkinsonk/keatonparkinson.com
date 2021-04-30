@@ -18,7 +18,7 @@ library(viridis)   #For coloring the plot
 
 prices <- c("VV", 'VO', 'VB', 'VNQ', 'VWO', 'VEA', 'GLD', 'BND') %>%
   tq_get(get  = "stock.prices",
-         from = "2010-01-01",
+         from = "2011-01-01",
          to   = "2021-01-01")
 
 
@@ -113,7 +113,7 @@ averages_plot <- ggplot(returns_yearly_avg, aes(x = `10-Yr Average`, y = symbol,
         strip.background = element_rect(color = "black", size = 1.5))
 
 #Combines all plots.
-grid.arrange(graph(2010), graph(2011), graph(2012), graph(2013), graph(2014), graph(2015), 
+grid.arrange(graph(2011), graph(2012), graph(2013), graph(2014), graph(2015), 
              graph(2016), graph(2017), graph(2018), graph(2019), graph(2020), averages_plot, ncol=13)
 
 

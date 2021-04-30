@@ -1,7 +1,7 @@
 ---
 title: "Asset Class Returns from 2010 - 2020."
 author: "Keaton Parkinson"
-date: "April 01, 2021"
+date: "April 30, 2021"
 output:
   html_document:  
     keep_md: true
@@ -37,7 +37,7 @@ library(viridis)   #For coloring the plot
 
 prices <- c("VV", 'VO', 'VB', 'VNQ', 'VWO', 'VEA', 'GLD', 'BND') %>%
   tq_get(get  = "stock.prices",
-         from = "2010-01-01",
+         from = "2011-01-01",
          to   = "2021-01-01")
 ```
 
@@ -91,7 +91,7 @@ graph <- function(year) {
 
 
 ```r
-#Averages the asset class returns from 2010 - 2020
+#Averages the asset class returns from 2011 - 2020
 returns_yearly_avg <- prices %>%
   group_by(symbol) %>%
   tq_transmute(select     = adjusted, 
@@ -140,7 +140,7 @@ averages_plot <- ggplot(returns_yearly_avg, aes(x = `10-Yr Average`, y = symbol,
 
 ```r
 #Combines all plots.
-grid.arrange(graph(2010), graph(2011), graph(2012), graph(2013), graph(2014), graph(2015), 
+grid.arrange(graph(2011), graph(2012), graph(2013), graph(2014), graph(2015), 
              graph(2016), graph(2017), graph(2018), graph(2019), graph(2020), averages_plot, ncol=13)
 ```
 
