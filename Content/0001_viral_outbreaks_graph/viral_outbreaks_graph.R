@@ -44,7 +44,7 @@ outbreaks_data <- new_portfolio_growth_monthly %>%
                        'MERS', 'Ebola', 'Zika', 'COVID-19'))
 
 #Code used to create plot
-sp_plot <- ggplot() +
+ggplot() +
   geom_line(new_portfolio_growth_monthly, mapping = aes(x = date, y = portfolio), color = 'black',
             size = 1.1) +
   geom_point(outbreaks_data, mapping = aes(x = date, y = portfolio), color = 'red', size = 3) +
@@ -75,4 +75,3 @@ sp_plot <- ggplot() +
         axis.text.x=element_text(size=10),
         axis.text.y=element_text(size=10))
 
-sp_plot
